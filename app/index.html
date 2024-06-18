@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>BookingApp</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    {{content-for "head"}}
+
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/vendor.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/booking-app.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/bootstrap.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/bootstrap.min.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/styles.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/fonts.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/css/font-awesome.min.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/fonts/icon-7-stroke/css/pe-icon-7-stroke.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/css/animate.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/css/owl.theme.css">
+    <link integrity="" rel="stylesheet" href="{{rootURL}}assets/css/owl.carousel.css">
+
+    {{content-for "head-footer"}}
+  </head>
+  <body>
+    {{content-for "body"}}
+
+    <script src="{{rootURL}}assets/js/jquery.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="{{rootURL}}assets/js/bootstrap.min.js"></script>
+    <script src="{{rootURL}}assets/js/custom.js"></script>
+    <script src="{{rootURL}}assets/js/bootstrap-datepicker.js"></script>
+    <script src="{{rootURL}}assets/js/wow.min.js"></script>
+    <script src="{{rootURL}}assets/js/owl.carousel.min.js"></script>
+    <script src="{{rootURL}}assets/js/ekko-lightbox-min.js"></script>
+    <script src="{{rootURL}}assets/js/jquery.sticky.js"></script>
+    
+    
+    <script src="{{rootURL}}assets/vendor.js"></script>
+    <script src="{{rootURL}}assets/booking-app.js"></script>
+    <script>
+      new WOW().init();
+    </script>
+    <script>$('.datepicker').datepicker();</script>
+    {{content-for "body-footer"}}
+  </body>
+</html>

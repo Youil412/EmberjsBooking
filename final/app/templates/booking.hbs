@@ -1,0 +1,174 @@
+<div id="top"></div>
+
+<div id="booking" class="section">
+	<div class="booking-logo">
+		<LinkTo @route="index"><img src="../assets/images/logo.svg" alt="Logo" style="width: 50px;"></LinkTo>
+	</div>
+	<div class="section-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-md-4">
+					<div class="">
+						<h1 class="wow fadeInUp">{{@model.activity.name}}</h1>
+						{{#unless this.hideDescription}}
+						<p class="wow fadeInLeft">{{@model.activity.description}}</p>
+						{{/unless}}
+					</div>
+				</div>
+				<div class="col-md-7 col-md-offset-1">
+					<div class="booking-form">
+						<form>
+							<div class="form-group">
+								<span class="form-label">Select Ticket</span>
+								<select class="form-control booking-select" style="color: white;"
+									onchange={{action "selectTicket" value="target.value" }}>
+									{{#each @model.activity.tickets as |item index|}}
+									<option>{{item.id}}</option>
+									{{/each}}
+								</select>
+								<span class="select-arrow"></span>
+							</div>
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<span class="form-label">Amount</span>
+										<p class="form-control textalign-end"> {{if this.selectedTicketPrice.amount
+											this.selectedTicketPrice.amount
+											this.model.activity.tickets.[0].price.amount}} </p>
+
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<span class="form-label">Currency</span>
+										<p class="form-control textalign-end"> {{if this.selectedTicketPrice.currency
+											this.selectedTicketPrice.currency
+											this.model.activity.tickets.[0].price.currency}} </p>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<span class="form-label">Formatted</span>
+										<p class="form-control textalign-end"> {{if this.selectedTicketPrice.formatted
+											this.selectedTicketPrice.formatted
+											this.model.activity.tickets.[0].price.formatted}} </p>
+									</div>
+								</div>
+
+							</div>
+							{{!-- <div class="form-group">
+								<span class="form-label">Choose Available Date</span>
+								<input class="form-control" type="date" required value={{this.selectedDate}} style={{if
+									this.isDateRed "color: red" }}>
+							</div> --}}
+							<div class="row">
+								<div class="col-md-4">
+									<div class="form-group">
+										<span class="form-label">Choose Date</span>
+										<select class="form-control booking-select"
+											onchange={{action "selectDate" value="target.value" }}>
+											{{#each @model.availabilityDates as |item index|}}
+											<option>{{item.date}}</option>
+											{{/each}}
+										</select>
+										<span class="select-arrow"></span>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<span class="form-label">Choose Time</span>
+										{{!-- Check if this.usable_Times is undefined --}}
+										{{#unless this.usable_Times}}
+										<select class="form-control booking-select"
+											onchange={{action "selectTime" value="target.value" }}>
+											{{#each this.model.availabilityDates.[0].availabilityTimes as |item index|}}
+											<option>{{item.time}}</option>
+											{{/each}}
+										</select>
+										{{else}}
+										{{!-- this.usable_Times is defined --}}
+										<select class="form-control booking-select"
+											onchange={{action "selectTime" value="target.value" }}>
+											{{#each this.usable_Times as |item index|}}
+											<option>{{item.time}}</option>
+											{{/each}}
+										</select>
+										{{/unless}}
+										<span class="select-arrow"></span>
+									</div>
+								</div>
+								<div class="col-md-4">
+									<div class="form-group">
+										<span class="form-label">Spots Left</span>
+										<p class="form-control textalign-end">
+											{{#unless this.selectedSpots}}
+											{{this.model.availabilityDates.[0].availabilityTimes.[0].spotsLeft}}
+											{{else}}
+											{{this.selectedSpots}}
+											{{/unless}}
+										</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="form-btn">
+								{{!-- <button class="submit-btn btn-modal-toggle" data-toggle="modal"
+									data-target="#BookingModal" {{on "click" this.OpenModal}}>
+									Booking
+								</button> --}}
+								<button type="button" class="btn booking-btn btn-modal-toggle" data-toggle="modal"
+									data-target="#BookingModal" {{on "click" this.OpenModal}}>
+									Booking
+								</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{{!-- modal --}}
+{{#if this.showModal}}
+<div class="modal fade" id="BookingModal" tabindex="-1" role="dialog" aria-labelledby="" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content booking-form">
+			<div class="modal-header">
+				<h4 class="modal-title alter-success">Confirm Booking Information</h4>
+			</div>
+			<div class="modal-body">
+				<div class="form-group">
+					<span class="form-label">UserName</span>
+					<input class="form-control" type="text" placeholder="Username" onchange={{action "nameSelected"}}>
+				</div>
+				<div class="form-group">
+					<span class="form-label">Email</span>
+					<input class="form-control" type="text" placeholder="Enter your email" onchange={{action "emailSelected"}}>
+				</div>
+				<div class="form-group">
+					<span class="form-label">Phone</span>
+					<PhoneInput class="phone-control" @number={{this.number}} @update={{this.handleUpdate}} @separateDialCode={{true}} style="width: 508px;" onchange={{action "phoneSelected"}}/>
+				</div>
+				<p>Ticket: {{this.selectedModalTicket}}</p>
+				<p>Currency: {{this.selectedModalCurrency}}</p>
+				<p>Time: {{this.selectedModalTime}}</p>
+				<p>Date: {{this.selectedModalDate}}</p>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" data-dismiss="modal" {{action "cancelModal"}}>Cancel</button>
+				{{#if this.showConfirmButton}}
+					<button type="button" class="btn btn-success" {{on "click" this.confirmBooking}}>Confirm</button>
+					{{!-- <button type="button" class="btn btn-success" onclick={{action "confirmBooking"}}>Confirm</button> --}}
+				{{/if}}
+				
+			</div>
+
+		</div>
+	</div>
+</div>
+{{/if}}
+
+<script>
+	new WOW().init();
+</script>
